@@ -1,0 +1,52 @@
+<style>
+  #jobs-filter {
+    padding: 5px;
+    display: grid;
+    text-align: center;
+  }
+
+  #jobs-filter>div {
+    width: 80%;
+    justify-self: center;
+  }
+
+  #select-filter>div>input {
+    box-shadow: 1px 1px 16px var(--background-color);
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 15px;
+    height: 35px;
+    padding: 9px;
+  }
+
+  #areas {
+    width: fit-content !important;
+    margin-top: 20px;
+    text-align: center;
+  }
+</style>
+<div id="jobs-filter" style="padding: 5px; text-align: center;">
+  <h4 style="font-weight: bold;">Retrouvez les jobs de votre localité</h4>
+  <div id="select-filter" style="display: flex; gap: 10px;justify-content: center;">
+    <select name="location" style="width: 80%;">
+      {{#each countries}}
+      <optgroup label="{{country_name}}">
+        {{#each locations}}
+        <option value="{{location_id}}">{{town}}</option>
+        {{/each}}
+      </optgroup>
+      {{/each}}
+    </select>
+    <select name="tag" style="width: 80%;">
+      {{#each tags}}
+      <option value="CDD">{{tag_name}}</option>
+      {{/each}}
+    </select>
+  </div>
+</div>
+<div id="jobs-root">
+  <div id="areas">
+  </div>
+  <div id="jobs-container" class="row">
+  </div>
+</div>

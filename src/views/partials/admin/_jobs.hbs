@@ -1,0 +1,52 @@
+<div id="jobs" class="section scrollspy col m12 row">
+    <div class="col s12 m4" style="margin-top: 25px;">
+        <a class="waves-effect waves-light btn modal-trigger btn-small" href="#chrdialog"><i
+                class="material-icons left">create</i>Ajouter un job</a>
+    </div>
+    <div id="total-assemblies" class="input-field col s12 m8"
+        style="margin-top: 25px; font-size: 25px;text-align: end;">
+        {{jobs.length}} au total
+    </div>
+    <table class="striped col s12">
+        <thead>
+            <tr>
+                <th>Poste</th>
+                <th>Salaire</th>
+                <th>Domaine</th>
+                <th>Type de Contrat</th>
+                <th>Villes concernées</th>
+                <th>Address</th>
+                <th>Eployeur</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="registration-data">
+            {{#each jobs}}
+            <tr id="{{job_id}}">
+                <td>{{job_title}}</td>
+                <td>{{job_salary}}</td>
+                <td>
+                    {{#each tag}}
+                    <span class="new badge">{{tag_name}}</span>
+                    {{/each}}
+                </td>
+                <td>
+                    {{#each locations}}
+                    <span class="new badge">{{town}}</span>
+                    {{/each}}
+                </td>
+                <td>{{job_apply_address}}</td>
+                <td>{{employer_name}}</td>
+                <td>
+                    <p>
+                        <a class="waves-effect waves-light btn btn-small delete" href="/jobs/{{job_id}}/delete"><i
+                                class="material-icons">delete_forever</i></a>
+                    </p>
+                </td>
+            </tr>
+            {{> modals/_job-form}}
+            {{/each}}
+        </tbody>
+    </table>
+</div>

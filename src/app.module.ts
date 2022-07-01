@@ -1,0 +1,63 @@
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { Area } from './models/area';
+import { Country } from './models/country';
+import { Employer } from './models/employer';
+import { Feedback } from './models/feedback';
+import { Job } from './models/job';
+import { JobHasArea } from './models/job-has-area';
+import { JobHasLocation } from './models/job-has-location';
+import { JobHasTag } from './models/job-has-tag';
+import { Location } from './models/location';
+import { Subscriber } from './models/subscriber';
+import { Tag } from './models/tag';
+import { AreaModule } from './modules/area.module';
+import { EmployerModule } from './modules/employer.module';
+import { JobModule } from './modules/job.module';
+import { SubscriberModule } from './modules/subscriber.module';
+import { CountryService } from './services/country.service';
+import { LocastionService } from './services/location.service';
+import { TagService } from './services/tag.service';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    SequelizeModule.forRoot({
+      dialect: 'mysql',
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT),
+      username: process.env.USER_NAME,
+      password: process.env.PASSWORD,
+      database: process.env.DB_NAME,
+      define: {
+        timestamps: false,
+      },
+      models: [
+        Job,
+        Tag,
+        Area,
+        Country,
+        Location,
+        Employer,
+        Feedback,
+        JobHasTag,
+        JobHasArea,
+        Subscriber,
+        JobHasLocation,
+      ],
+    }),
+    SequelizeModule.forFeature([Tag, Country, Location]),
+    JobModule,
+    AreaModule,
+    EmployerModule,
+    SubscriberModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService, TagService, CountryService, LocastionService],
+})
+export class AppModule {}

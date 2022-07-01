@@ -1,0 +1,31 @@
+<div style="align-content: center; padding: 15px;">
+    <h3 style="font-weight: 400;">Nos employeurs</h3>
+</div>
+<div id="same-area" class="row">
+    {{#each employers}}
+    <div class="col s12 m4" style="font-size: 15px;">
+        <div class="card">
+            <div class="card-content" style="display: grid; gap: 10px">
+                <div class="card-title">
+                    {{#if logo_ref}}
+                    <img width="100%" src="{{logo_ref}}" alt="logo ref" />
+                    {{/if}}
+                    <h4><a href="#">{{employer_name}}</a></h4>
+                </div>
+                <div>
+                    <p>Employer address</p>
+                    <address>
+                        {{employer_telephone}}
+                        {{employer_email}}
+                        {{precise_address}}
+                    </address>
+                </div>
+                <div class="grid-1fr-auto">
+                    <a href="/{{employer_linkedin}}">LinkedIn</a>
+                    <a href="/{{employer_website}}">Website</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>

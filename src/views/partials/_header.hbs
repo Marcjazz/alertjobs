@@ -1,0 +1,63 @@
+<style>
+    .home-header {
+        background-image: url('/images/welcome-image.png');
+        min-height: 27vh;
+        background-position: center;
+        background-size: 100vw;
+        display: grid;
+        align-items: end;
+        padding: 10px;
+        grid-auto-flow: column;
+        justify-content: end;
+    }
+    .home-header>div {
+        width: 60vw;
+    }
+
+    #search-input,
+    #footer-email {
+        box-shadow: 1px 1px 16px var(--background-color);
+        background-color: white;
+        box-sizing: border-box;
+        border-radius: 15px;
+        padding: 9px;
+    }
+</style>
+<header>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <a href="/" class="brand-logo" style="color: black; height: fit-content;"><b>Alert Jobs</b></a>
+                <a data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="/">ACCEUIL</a></li>
+                    <li><a href="/employers">RECRUTEURS</a></li>
+                    <li><a href="/about">A PROPOS</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <ul class="sidenav" id="mobile-demo">
+        <li><a href="/">ACCEUIL</a></li>
+        <li><a href="/employers">RECRUTEURS</a></li>
+        <li><a href="/about">A PROPOS</a></li>
+    </ul>
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large">
+            <i class="large material-icons">arrow_upward</i>
+        </a>
+    </div>
+</header>
+{{#if job?.job_flyer}}
+<div class="home-header" style="background-image: url(/images/{{job_flyer}});">
+    <div class="input-field">
+        <input type="text" name="search" id="search-input" class="autocomplete" placeholder="Que cherchez-vous ?">
+    </div>
+</div>
+{{else}}
+<div class="home-header">
+    <div class="input-field">
+        <input type="text" name="search" id="search-input" class="autocomplete" placeholder="Que cherchez-vous ?">
+    </div>
+</div>
+{{/if}}
