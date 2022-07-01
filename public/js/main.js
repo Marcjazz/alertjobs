@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   M.Datepicker.init(document.querySelectorAll('.datepicker'));
 
+  M.ScrollSpy.init(document.querySelectorAll('.scrollspy'))
+
   const arrowUp = document.querySelector('.btn-floating');
   arrowUp.addEventListener('click', () => {
     const anchor = document.querySelector('#main-anchor');

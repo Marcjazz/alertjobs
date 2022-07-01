@@ -24,6 +24,14 @@
     margin-top: 20px;
     text-align: center;
   }
+
+  #preloader {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    min-height: 50vh;
+    align-items: center;
+  }
 </style>
 <div id="jobs-filter" style="padding: 5px; text-align: center;">
   <h4 style="font-weight: bold;">Retrouvez les jobs de votre localité</h4>
@@ -45,8 +53,10 @@
   </div>
 </div>
 <div id="jobs-root">
-  <div id="areas">
-  </div>
-  <div id="jobs-container" class="row">
+  <div id="preloader">
+    <h4 style="font-weight: bold;">ALERT JOBS</h4>
+    <div class="progress">
+      <div class="indeterminate"></div>
+    </div>
   </div>
 </div>

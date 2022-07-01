@@ -1,10 +1,10 @@
 <div id="employers" class="section scrollspy col m12 row">
-    <div class="col s12 m4" style="margin-top: 25px;">
+    <div class="col s4" style="margin-top: 25px;">
         <a class="waves-effect waves-light btn modal-trigger btn-small" href="#new-employer"><i
-                class="material-icons left">create</i>Ajouter un job</a>
+                class="material-icons left">create</i>Ajouter un employer</a>
     </div>
-    <div id="total-employers" class="input-field col s12 m8" style="margin-top: 25px; font-size: 25px;text-align: end;">
-        {{jobs.length}} employeurs au total
+    <div id="total-employers" class="input-field col s8" style="margin-top: 25px; font-size: 25px;text-align: end;">
+        {{jobs.length}} employeurs
     </div>
     <ul class="collection s12">
         {{#each employers}}
@@ -15,7 +15,6 @@
                 {{employer_linkedin}}
             </p>
             <a href="{{employer_website}}" class="secondary-content"><i class="material-icons">grade</i></a>
-            
         </li>
         {{/each}}
     </ul>

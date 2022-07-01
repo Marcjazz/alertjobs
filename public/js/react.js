@@ -118,28 +118,56 @@ document.addEventListener('DOMContentLoaded', function () {
                       {
                         className: 'card-title',
                       },
+
                       React.createElement(
                         'div',
-                        null,
-                        areas.map(function (_ref, index) {
-                          var area_id = _ref.area_id,
-                            area_name = _ref.area_name;
-                          return /*#__PURE__*/ React.createElement(
-                            'p',
-                            {
-                              key: index,
-                              style: { display: 'inline-block', margin: '5px' },
-                            },
-                            /*#__PURE__*/ React.createElement(
-                              'a',
+                        {
+                          style: {
+                            display: 'grid',
+                            gridTemplateColumn: '1fr auto',
+                          },
+                        },
+                        React.createElement(
+                          'div',
+                          null,
+                          areas.map(function (_ref, index) {
+                            var area_id = _ref.area_id,
+                              area_name = _ref.area_name;
+                            return /*#__PURE__*/ React.createElement(
+                              'p',
                               {
-                                id: area_id,
-                                className: 'tag-button tag',
+                                key: index,
+                                style: {
+                                  display: 'inline-block',
+                                  margin: '5px',
+                                },
                               },
-                              area_name,
+                              /*#__PURE__*/ React.createElement(
+                                'a',
+                                {
+                                  id: area_id,
+                                  className: 'tag-button tag',
+                                },
+                                area_name,
+                              ),
+                            );
+                          }),
+                        ),
+                        React.createElement(
+                          'div',
+                          null,
+                          tags.map(({ tag_id, tag_name }) =>
+                            React.createElement(
+                              'span',
+                              {
+                                key: tag_id,
+                                className: 'new badge',
+                                'data-badge-caption': '',
+                              },
+                              tag_name,
                             ),
-                          );
-                        }),
+                          ),
+                        ),
                       ),
                       /*#__PURE__*/ React.createElement(
                         'div',
@@ -155,17 +183,6 @@ document.addEventListener('DOMContentLoaded', function () {
                               href: '/jobs/'.concat(job_id),
                             },
                             job_title,
-                          ),
-                        ),
-                        tags.map(({ tag_id, tag_name }) =>
-                          React.createElement(
-                            'span',
-                            {
-                              key: tag_id,
-                              className: 'new badge',
-                              'data-badge-caption': '',
-                            },
-                            tag_name,
                           ),
                         ),
                       ),

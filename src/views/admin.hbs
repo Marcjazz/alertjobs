@@ -1,19 +1,66 @@
-<div class="col s12 m9 l10">
+<style>
+    a.tag {
+        position: relative !important;
+    }
+
+    h4 {
+        font-weight: 600;
+    }
+</style>
+<div class="col s12 m9 l10 row">
+    <div id="location-tag" class="section scrollspy col s12">
+        <h4>Les {{locations.length}} villes touchées</h4>
+        <ul class="collection">
+            {{#each locations}}
+            <li class="collection-item avatar" style="display: inline-block;">
+                <span class="title">{{town}}</span>
+                <p style="text-transform: lowercase;">{{country_name}}
+                    <a href="/locations/{{location_id}}/delete" class="secondary-content tag"><i
+                            class="material-icons">delete_forever</i></a>
+                </p>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    <div id="area-tag" class="section scrollspy col s12">
+        <h4>Les {{areas.length}} domaines touchés</h4>
+        <ul class="collection">
+            {{#each areas}}
+            <li class="collection-item avatar" style="display: inline-block;">
+                <span class="title">{{area_name}}</span>
+                <a href="/area/{{area-id}}/delete" class="secondary-content tag"><i
+                        class="material-icons">delete_forever</i></a>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    <div id="tag-tag" class="section scrollspy col s12">
+        <h4>Les {{tags.length}} types de contrat</h4>
+        <ul class="collection">
+            {{#each tags}}
+            <li class="collection-item avatar" style="display: inline-block;">
+                <span class="title">{{tag_name}}</span>
+                <a href="/tag/{{tab_id}}/delete" class="secondary-content tag"><i
+                        class="material-icons">delete_forever</i></a>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
     {{> admin/_employers}}
     {{> admin/_jobs}}
-    <div id="service-stat" class="section scrollspy col s12" style="text-align: center;">
-        <canvas id="service-stats-chart"></canvas>
-    </div>
 </div>
 <div class="col hide-on-small-only m3 l2">
     <ul class="section table-of-contents" style="position: fixed;">
-        <li><a style="font-weight: bold;" href="#employers">Registrations</a></li>
-        <li><a style="font-weight: bold;" href="#jobs">Assemblies</a></li>
-        </li>
         <li>
             <div style="padding: 5 !important; text-align: center;">
                 <img style="border-radius: 100%; width: 100px; height: 100px;" src="/favicon.ico">
             </div>
+        </li>
+        <li><a style="font-weight: bold;" href="#location-tag">Villes</a></li>
+        <li><a style="font-weight: bold;" href="#area-tag">Domaines</a></li>
+        <li><a style="font-weight: bold;" href="#tag-tag">Type de contrat</a></li>
+        <li><a style="font-weight: bold;" href="#employers">Employeurs</a></li>
+        <li><a style="font-weight: bold;" href="#jobs">Jobs</a></li>
         </li>
     </ul>
 </div>

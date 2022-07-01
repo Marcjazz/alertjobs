@@ -18,7 +18,10 @@ import { AreaModule } from './modules/area.module';
 import { EmployerModule } from './modules/employer.module';
 import { JobModule } from './modules/job.module';
 import { SubscriberModule } from './modules/subscriber.module';
+import { AreaService } from './services/area.service';
 import { CountryService } from './services/country.service';
+import { EmployerService } from './services/employer.service';
+import { JobService } from './services/job.service';
 import { LocastionService } from './services/location.service';
 import { TagService } from './services/tag.service';
 
@@ -51,13 +54,21 @@ import { TagService } from './services/tag.service';
         JobHasLocation,
       ],
     }),
-    SequelizeModule.forFeature([Tag, Country, Location]),
+    SequelizeModule.forFeature([Area, Job, Tag, Country, Location, Employer]),
     JobModule,
     AreaModule,
     EmployerModule,
     SubscriberModule,
   ],
   controllers: [AppController],
-  providers: [AppService, TagService, CountryService, LocastionService],
+  providers: [
+    AppService,
+    TagService,
+    JobService,
+    AreaService,
+    CountryService,
+    LocastionService,
+    EmployerService,
+  ],
 })
 export class AppModule {}
