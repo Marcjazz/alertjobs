@@ -1,0 +1,25 @@
+{{#if job_id}}
+<div id="preview-image-{{job_id}}" class="modal" style="width: 50vw;">
+    <div class="modal-content">
+        <img id="preview-image-src-{{job_id}}" width="100%" height="250px" src="#" alt="previewn image" />
+        <div class="card-action">
+            <label id="preview-label-{{job_id}}" class="btn-flat" for="#">
+                Changer
+            </label>
+            <button class="modal-close btn">Utiliser</button>
+        </div>
+    </div>
+</div>
+{{else}}
+<div id="preview-image-{{employer_id}}" class="modal" style="width: 50vw;">
+    <div class="modal-content">
+        <img id="preview-image-src-{{employer_id}}" width="100%" height="250px" src="#" alt="previewn image" />
+        <div class="card-action">
+            <label id="preview-label-{{employer_id}}" class="btn-flat" for="#">
+                Changer
+            </label>
+            <button class="modal-close btn">Utiliser</button>
+        </div>
+    </div>
+</div>
+{{/if}}

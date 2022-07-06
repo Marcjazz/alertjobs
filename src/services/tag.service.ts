@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Tag } from 'src/models/tag';
+import { randomUUID } from 'crypto';
+import { Tag, TagCreationAttributes } from 'src/models/tag';
 
 @Injectable()
 export class TagService {
@@ -12,5 +13,15 @@ export class TagService {
 
   async findOne(tag_id: string) {
     return this.tagModel.findByPk(tag_id);
+  }
+
+  async create(newTag: TagCreationAttributes) {
+    return this.tagModel.create({ ...newTag, tag_id: randomUUID() });
+  }
+
+  async delete(tag_id: string) {
+    return this.tagModel.destroy({
+      where: { tag_id },
+    });
   }
 }

@@ -37,7 +37,8 @@ export class Tag
     return Tag.init(
       {
         tag_id: {
-          type: DataTypes.STRING(36),
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV4,
           allowNull: false,
           primaryKey: true,
         },

@@ -1,5 +1,6 @@
 import { InjectModel } from '@nestjs/sequelize';
-import { JobHasTag } from 'src/models/job-has-tag';
+import { Transaction } from 'sequelize/types';
+import { JobHasTag, JobHasTagCreationAttributes } from 'src/models/job-has-tag';
 
 export class JobHasTagService {
   constructor(
@@ -15,6 +16,15 @@ export class JobHasTagService {
   async findTags(job_id: string) {
     return this.jobHasTagModel.findAll({
       where: { job_id },
+    });
+  }
+
+  async bulkCreate(
+    bulkData: Array<JobHasTagCreationAttributes>,
+    transaction?: Transaction,
+  ) {
+    return this.jobHasTagModel.bulkCreate(bulkData, {
+      transaction,
     });
   }
 }

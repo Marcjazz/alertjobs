@@ -1,6 +1,12 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Optional } from 'sequelize';
-import { Column, HasMany, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import {
+  Column,
+  HasMany,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript';
 import { JobHasArea } from './job-has-area';
 
 export interface AreaAttributes {
@@ -30,7 +36,8 @@ export class Area
     return Area.init(
       {
         area_id: {
-          type: DataTypes.STRING(36),
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV4,
           allowNull: false,
           primaryKey: true,
         },

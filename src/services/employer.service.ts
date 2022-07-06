@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Employer } from 'src/models/employer';
+import { randomUUID } from 'crypto';
+import { Employer, EmployerCreationAttributes } from 'src/models/employer';
 
 @Injectable()
 export class EmployerService {
@@ -12,5 +13,21 @@ export class EmployerService {
 
   async findOne(employer_id: string) {
     return this.employerModel.findByPk(employer_id);
+  }
+
+  async create(newEmployer: EmployerCreationAttributes) {
+    return this.employerModel.create({
+      employer_id: randomUUID(),
+      ...newEmployer,
+    });
+  }
+
+  async update(
+    employer_id: string,
+    employer: Partial<EmployerCreationAttributes>,
+  ) {
+    await this.employerModel.update(employer, {
+      where: { employer_id },
+    });
   }
 }

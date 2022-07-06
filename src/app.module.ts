@@ -17,7 +17,9 @@ import { Tag } from './models/tag';
 import { AreaModule } from './modules/area.module';
 import { EmployerModule } from './modules/employer.module';
 import { JobModule } from './modules/job.module';
+import { LocationModule } from './modules/location.module';
 import { SubscriberModule } from './modules/subscriber.module';
+import { TagModule } from './modules/tag.module';
 import { AreaService } from './services/area.service';
 import { CountryService } from './services/country.service';
 import { EmployerService } from './services/employer.service';
@@ -55,9 +57,11 @@ import { TagService } from './services/tag.service';
       ],
     }),
     SequelizeModule.forFeature([Area, Job, Tag, Country, Location, Employer]),
+    TagModule,
     JobModule,
     AreaModule,
     EmployerModule,
+    LocationModule,
     SubscriberModule,
   ],
   controllers: [AppController],

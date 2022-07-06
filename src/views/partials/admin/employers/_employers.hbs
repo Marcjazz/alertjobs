@@ -1,0 +1,43 @@
+<div id="employers" class="section scrollspy col m12 row">
+    <div class="col s4" style="margin-top: 25px;">
+        <form id="new-employer" class="modal" style="max-width: 550px;" method="post" action="/employers/new">
+
+            {{> admin/employers/_emp-form}}
+        </form>
+        <a class="waves-effect waves-light btn modal-trigger btn-small" href="#new-employer"><i
+                class="material-icons left">create</i>Ajouter un employer</a>
+    </div>
+    <div id="total-employers" class="input-field col s8" style="margin-top: 25px; font-size: 25px;text-align: end;">
+        {{employers.length}} employeurs
+    </div>
+    <ul class="collection s12">
+        {{#each employers}}
+        <li class="collection-item avatar">
+            <form id="edit-{{employer_id}}-logo" enctype="multipart/form-data" method="post"
+                action="/employers/{{employer_id}}/edit-image">
+                {{> modals/_preview}}
+                <input id="logo_ref-{{employer_id}}" type="file" name="logo_ref" class="file-input" hidden>
+                <label for="logo_ref-{{employer_id}}">
+                    <img src="/images/{{logo_ref}}" alt="" class="circle">
+                </label>
+            </form>
+            <span class="title">{{employer_name}}</span>
+            <p>{{employer_email}}
+                {{#if employer_linkedin}}
+                <br> {{employer_linkedin}}
+                {{/if}}
+                {{#if employer_website}}
+                <br> site web: {{employer_website}}
+                {{/if}}
+            </p>
+            <a href="#edit-employer-{{employer_id}}" class="secondary-content modal-trigger"><i
+                    class="material-icons">create</i></a>
+            <form id="edit-employer-{{employer_id}}" class="modal" style="max-width: 550px;" method="post"
+                action="/employers/{{employer_id}}/edit">
+
+                {{> admin/employers/_emp-form}}
+            </form>
+        </li>
+        {{/each}}
+    </ul>
+</div>

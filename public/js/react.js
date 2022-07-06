@@ -147,6 +147,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                 {
                                   id: area_id,
                                   className: 'tag-button tag',
+                                  style: {
+                                    backgroundColor: 'whitesmoke'
+                                  }
                                 },
                                 area_name,
                               ),
@@ -237,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
                           ? /*#__PURE__*/ React.createElement('img', {
                               width: '50',
                               height: '50',
-                              src: logo_ref,
+                              src: employer.logo_ref,
                               alt: 'logo ref',
                             })
                           : null,

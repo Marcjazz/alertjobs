@@ -1,0 +1,71 @@
+<style>
+    .delete {
+        background-color: var(--error-color);
+    }
+</style>
+<div id="jobs" class="section scrollspy col s12 row">
+    <form id="new-job" class="modal" style="padding: 25px;" method="post" action="/jobs/new">
+        <h4 class="col s10 card-title" style="font-weight: bold; margin-bottom: 20px;">Ajouter une nouvelle offre
+            d'emploie</h4>
+        {{> admin/jobs/_job-form}}
+        <div class="col s12" style="text-align: end;">
+            <button class="btn" type="submit">Ajouter</button>
+        </div>
+    </form>
+    <div class="col s4" style="margin-top: 25px;">
+        <a class="waves-effect waves-light btn modal-trigger btn-small" href="#new-job"><i
+                class="material-icons left">create</i>Ajouter une offre</a>
+    </div>
+    <div id="total-jobs" class="input-field col s8" style="margin-top: 25px; font-size: 25px;text-align: end;">
+        {{jobs.length}} jobs
+    </div>
+    <ul class="collapsible">
+        {{#each jobs}}
+        <li>
+            <div id="{{job_id}}" class="collapsible-header"
+                style="font-weight: bolder; display: grid; grid-template-columns: 1fr auto;">
+                <div>
+                    {{job_title}} -
+                    {{employer_name}} -
+                    {{job_apply_address}} -
+                </div>
+                <form id="edit-{{job_id}}-flyer" enctype="multipart/form-data" method="post"
+                    action="/jobs/{{job_id}}/edit-image">
+                    {{> modals/_preview}}
+                    <input id="job_flyer-{{job_id}}" type="file" name="job_flyer" class="file-input" hidden>
+                    <label for="job_flyer-{{job_id}}" class="btn-flat" href="#">
+                        <i class="material-icons" style="margin: 0;color: var(--secondary-color);">folder</i>
+                    </label>
+                    <a style="padding: 0px; color: white;" class="btn-flat" href="/jobs/{{job_id}}/delete"><i
+                            class="material-icons delete" style="margin: 0;">delete_forever</i></a>
+                </form>
+            </div>
+            <form class="collapsible-body row" method="post" action="/jobs/{{job_id}}/edit">
+                <div class="col s12 row">
+                    <div class="col s10"></div>
+                    <button class="col s2 btn" type="submit">Mettre à jour</button>
+                </div>
+                <div class="col s6 row">
+                    <div class="col s12">
+                        <img src="/images/{{job_flyer}}" width="500px" alt="Bande d'anonce" />
+                        <label for="job_flyer-{{job_id}}">
+                            <div class="file-field input-field">
+                                <div class="btn">
+                                    <span><i class="material-icons">folder</i></span>
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input name="str_file" class="file-path validate" type="text"
+                                        placeholder="Ajouter une image">
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="col s6 row">
+                    {{> admin/jobs/_job-form}}
+                </div>
+            </form>
+        </li>
+        {{/each}}
+    </ul>
+</div>

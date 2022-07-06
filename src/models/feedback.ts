@@ -39,7 +39,8 @@ export class Feedback
     return Feedback.init(
       {
         feedback_id: {
-          type: DataTypes.STRING(36),
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV4,
           allowNull: false,
           primaryKey: true,
         },
@@ -48,7 +49,7 @@ export class Feedback
           allowNull: false,
         },
         subscriber_id: {
-          type: DataTypes.STRING(36),
+          type: DataTypes.UUID,
           allowNull: false,
         },
       },

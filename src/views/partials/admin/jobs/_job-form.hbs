@@ -1,0 +1,82 @@
+<div class="input-field col s12">
+    <select name="employer_id" id="employer-{{job_id}}-select" required>
+        <option value="" disabled selected>Choisissez le recruteur</option>
+        {{#each employers}}
+        <option value="{{employer_id}}">{{employer_name}}</option>
+        {{/each}}
+    </select>
+    <label for="employer-{{job_id}}-select">Les Recruteurs*</label>
+</div>
+<div class="input-field col s12">
+    <select name="areas" id="areas-{{job_id}}-select" multiple required>
+        <option value="" disabled selected>Choisissez les domaines professionnelles</option>
+        {{#each areas}}
+        <option value="{{area_id}}">{{area_name}}</option>
+        {{/each}}
+    </select>
+    <label for="areas-{{job_id}}-select">Les Domaines</label>
+</div>
+<div class="input-field col s12">
+    <select name="tags" id="tags-{{job_id}}-select" multiple>
+        <option value="" disabled>Choisissez les types de contrats</option>
+        {{#each tags}}
+        <option value="{{tag_id}}">{{tag_name}}</option>
+        {{/each}}
+    </select>
+    <label for="tags-{{job_id}}-select">Les Types de Contracts</label>
+</div>
+<div class="input-field col s12">
+    <select name="locations" id="locations-{{job_id}}-select" multiple>
+        <option value="" disabled>Choisissez les locatiliés</option>
+        {{#each countries}}
+        <optgroup label="{{country_name}}">
+            {{#each locations}}
+            <option value="{{location_id}}">{{town}}</option>
+            {{/each}}
+        </optgroup>
+        {{/each}}
+    </select>
+    <label for="locations-{{job_id}}-select">Les Villes</label>
+</div>
+<div class="input-field col s12">
+    <input id="job_title-{{job_id}}" name="job_title" value="{{job_title}}" type="text" class="validate" required>
+    <label for="job_title">Poste*</label>
+</div>
+<div class="input-field col s12">
+    <input id="job_salary-{{job_id}}" name="job_salary" value="{{job_salary}}" type="number" class="validate">
+    <label for="job_salary">Salaire</label>
+</div>
+<div class="input-field col s12">
+    <input id="job_apply_address-{{job_id}}" value="{{job_apply_address}}" name="job_apply_address" type="text"
+        class="validate" required>
+    <label for="job_apply_address">Address de Recrutement*</label>
+</div>
+<div class="input-field col s12 row">
+    <div class="col s6">
+        <input id="job_minimal_age-{{job_id}}" name="job_minimal_age" value="{{job_minimal_age}}" type="number"
+            class="validate">
+        <label for="job_minimal_age">Age minimal</label>
+    </div>
+    <div class="col s6">
+        <input id="job_maximal_age-{{job_id}}" name="job_maximal_age" value="{{job_maximal_age}}" type="number"
+            class="validate">
+        <label for="job_maximal_age">Age maxiaml</label>
+    </div>
+</div>
+<div class="input-field col s12">
+    <h5>
+        Prérequis*
+    </h5>
+</div>
+<div class="input-field col s12">
+    <textarea id="job_requirements_{{job_id}}{{job_id}}" name="job_requirements"
+        required>{{{job_requirements}}}</textarea>
+</div>
+<div class="input-field col s12">
+    <h5>
+        Tache à faire*
+    </h5>
+</div>
+<div class="input-field col s12">
+    <textarea id="job_todos_{{job_id}}{{job_id}}" name="job_todos" required>{{{job_todos}}}</textarea>
+</div>

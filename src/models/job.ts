@@ -89,7 +89,8 @@ export class Job
     return Job.init(
       {
         job_id: {
-          type: DataTypes.STRING(36),
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV4,
           allowNull: false,
           primaryKey: true,
         },
@@ -122,7 +123,7 @@ export class Job
           allowNull: false,
         },
         employer_id: {
-          type: DataTypes.STRING(36),
+          type: DataTypes.UUID,
           allowNull: false,
         },
         job_flyer: {

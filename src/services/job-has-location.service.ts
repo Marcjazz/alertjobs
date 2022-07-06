@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { JobHasLocation } from 'src/models/job-has-location';
+import { Transaction } from 'sequelize/types';
+import {
+  JobHasLocation,
+  JobHasLocationCreationAttributes,
+} from 'src/models/job-has-location';
 
 @Injectable()
 export class JobHasLocationService {
@@ -17,6 +21,15 @@ export class JobHasLocationService {
   async findJobs(location_id: string) {
     return this.jobHasLocation.findAll({
       where: { location_id },
+    });
+  }
+
+  async bulkCreate(
+    bulkData: Array<JobHasLocationCreationAttributes>,
+    transaction?: Transaction,
+  ) {
+    return this.jobHasLocation.bulkCreate(bulkData, {
+      transaction,
     });
   }
 }

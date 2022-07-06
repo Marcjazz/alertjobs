@@ -45,7 +45,8 @@ export class Location
     return Location.init(
       {
         location_id: {
-          type: DataTypes.STRING(36),
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV4,
           allowNull: false,
           primaryKey: true,
         },
@@ -54,7 +55,7 @@ export class Location
           allowNull: false,
         },
         country_id: {
-          type: DataTypes.STRING(36),
+          type: DataTypes.UUID,
           allowNull: false,
         },
       },

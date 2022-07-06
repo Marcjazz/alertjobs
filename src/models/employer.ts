@@ -12,7 +12,7 @@ import { Job } from './job';
 export interface EmployerAttributes {
   employer_id: string;
   employer_name: string;
-  employer_telephone: number;
+  employer_telephone?: number;
   employer_email: string;
   employer_website?: string;
   employer_linkedin?: string;
@@ -24,7 +24,8 @@ export type EmployerPk = 'employer_id';
 export type EmployerId = Employer[EmployerPk];
 export type EmployerOptionalAttributes =
   | 'employer_website'
-  | 'employer_linkedin';
+  | 'employer_linkedin'
+  | 'employer_telephone';
 export type EmployerCreationAttributes = Optional<
   EmployerAttributes,
   EmployerOptionalAttributes
@@ -43,7 +44,7 @@ export class Employer
   employer_name!: string;
 
   @Column
-  employer_telephone!: number;
+  employer_telephone?: number;
 
   @Column
   employer_email!: string;
@@ -67,7 +68,8 @@ export class Employer
     return Employer.init(
       {
         employer_id: {
-          type: DataTypes.STRING(36),
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV4,
           allowNull: false,
           primaryKey: true,
         },
@@ -77,7 +79,7 @@ export class Employer
         },
         employer_telephone: {
           type: DataTypes.INTEGER,
-          allowNull: false,
+          allowNull: true,
         },
         employer_email: {
           type: DataTypes.STRING(45),

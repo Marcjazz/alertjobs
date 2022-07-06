@@ -9,13 +9,19 @@ export interface UserAttributes {
   password: string;
 }
 
-export type UserPk = "user_id";
+export type UserPk = 'user_id';
 export type UserId = User[UserPk];
-export type UserOptionalAttributes = "user_type";
-export type UserCreationAttributes = Optional<UserAttributes, UserOptionalAttributes>;
+export type UserOptionalAttributes = 'user_type';
+export type UserCreationAttributes = Optional<
+  UserAttributes,
+  UserOptionalAttributes
+>;
 
 @Table({ tableName: 'user' })
-export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
+export class User
+  extends Model<UserAttributes, UserCreationAttributes>
+  implements UserAttributes
+{
   @PrimaryKey
   @Column
   user_id!: string;
@@ -29,42 +35,42 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
   @Column
   password!: string;
 
-  
-
   static initModel(sequelize: Sequelize.Sequelize): typeof User {
-    return User.init({
-    user_id: {
-      type: DataTypes.STRING(36),
-      allowNull: false,
-      primaryKey: true
-    },
-    username: {
-      type: DataTypes.STRING(70),
-      allowNull: false
-    },
-    user_type: {
-      type: DataTypes.ENUM('MANAGER','OWNER'),
-      allowNull: false,
-      defaultValue: "MANAGER"
-    },
-    password: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    }
-  }, {
-    sequelize,
-    tableName: 'user',
-    timestamps: false,
-    indexes: [
+    return User.init(
       {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "user_id" },
-        ]
+        user_id: {
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV4,
+          allowNull: false,
+          primaryKey: true,
+        },
+        username: {
+          type: DataTypes.STRING(70),
+          allowNull: false,
+        },
+        user_type: {
+          type: DataTypes.ENUM('MANAGER', 'OWNER'),
+          allowNull: false,
+          defaultValue: 'MANAGER',
+        },
+        password: {
+          type: DataTypes.STRING(255),
+          allowNull: false,
+        },
       },
-    ]
-  });
+      {
+        sequelize,
+        tableName: 'user',
+        timestamps: false,
+        indexes: [
+          {
+            name: 'PRIMARY',
+            unique: true,
+            using: 'BTREE',
+            fields: [{ name: 'user_id' }],
+          },
+        ],
+      },
+    );
   }
 }

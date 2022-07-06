@@ -1,0 +1,18 @@
+<form action="/locations/new" method="post" id="new-location" class="modal">
+    <div class="modal-content">
+        <div class="input-field col s10">
+            <input id="town" name="town" value="{{town}}" type="text" class="validate" required>
+            <label for="town">Nouvelle Ville</label>
+        </div>
+        <div class="input-field col s2">
+            <select name="country_id" id="locations-select" required>
+                {{#each countries}}
+                <option value="{{country_id}}">{{country_name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="input-field col s12" style="text-align: end;">
+            <button class="btn" type="submit">Ajouter</button>
+        </div>
+    </div>
+</form>

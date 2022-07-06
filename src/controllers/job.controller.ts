@@ -1,15 +1,24 @@
 import {
+  Body,
   Controller,
   Get,
   HttpException,
   HttpStatus,
   Param,
+  Post,
   Query,
   Render,
+  Res,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { IntersectionType } from '@nestjs/swagger';
+import { Response } from 'express';
+import { Sequelize } from 'sequelize-typescript';
 import { Area } from 'src/models/area';
 import { Employer } from 'src/models/employer';
-import { Job } from 'src/models/job';
+import { Job, JobCreationAttributes } from 'src/models/job';
 import { AreaService } from 'src/services/area.service';
 import { EmployerService } from 'src/services/employer.service';
 import { JobHasAreaService } from 'src/services/job-has-area.service';
@@ -24,10 +33,27 @@ interface JobQuery {
   tag_id?: string;
   location_id?: string;
 }
+class JobDependecies implements JobCreationAttributes {
+  job_id: string;
+  job_title: string;
+  job_salary?: number;
+  job_requirements: string;
+  job_minimal_age?: number;
+  job_maximal_age?: number;
+  job_todos: string;
+  job_apply_address: string;
+  employer_id: string;
+  job_flyer?: string;
+  posted_at?: Date;
+  tags?: string | string[];
+  areas?: string | string[];
+  locations?: string | string[];
+}
 
 @Controller('jobs')
 export class JobController {
   constructor(
+    private sequelize: Sequelize,
     private jobService: JobService,
     private tagService: TagService,
     private areaService: AreaService,
@@ -116,6 +142,90 @@ export class JobController {
     };
   }
 
+  @Post('new')
+  async addNewJob(@Res() res: Response, @Body() newJob: JobDependecies) {
+    const { tags, locations, areas } = newJob;
+    console.log(newJob);
+    return this.sequelize.transaction(async (transaction) => {
+      const { job_id } = await this.jobService.create(newJob, transaction);
+      if (typeof areas === 'string')
+        await this.jobHasAreaService.bulkCreate(
+          [{ area_id: areas, job_id }],
+          transaction,
+        );
+      else
+        await this.jobHasAreaService.bulkCreate(
+          areas?.map((area_id) => ({ area_id, job_id })),
+          transaction,
+        );
+
+      if (typeof tags === 'string')
+        await this.jobHasTagService.bulkCreate(
+          [{ tag_id: tags, job_id }],
+          transaction,
+        );
+      else
+        await this.jobHasTagService.bulkCreate(
+          tags?.map((tag_id) => ({ tag_id, job_id })),
+          transaction,
+        );
+
+      if (typeof locations === 'string')
+        await this.jobHasLocationService.bulkCreate(
+          [{ location_id: locations, job_id }],
+          transaction,
+        );
+      else
+        await this.jobHasLocationService.bulkCreate(
+          locations?.map((location_id) => ({ location_id, job_id })),
+          transaction,
+        );
+      return res.redirect('/admin');
+    });
+  }
+
+  @Post(':job_id/edit-image')
+  @UseInterceptors(FileInterceptor('job_flyer'))
+  async updateLogo(
+    @Res() res: Response,
+    @Param('job_id') job_id: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!job_id)
+      throw new HttpException(
+        'job_id is required',
+        HttpStatus.PRECONDITION_FAILED,
+      );
+    await this.jobService.update(job_id, { job_flyer: file.filename });
+    return res.redirect('/admin');
+  }
+
+  @Post(':job_id/edit')
+  async updateJob(
+    @Res() res: Response,
+    @Param('job_id') job_id: string,
+    @Body() job: Partial<JobCreationAttributes>,
+  ) {
+    if (!job_id)
+      throw new HttpException(
+        'job_id is required',
+        HttpStatus.PRECONDITION_FAILED,
+      );
+    await this.jobService.update(job_id, job);
+    return res.redirect('/admin');
+  }
+
+  @Get(':job_id/delete')
+  async deleteEmployer(@Res() res: Response, @Param('job_id') job_id: string) {
+    if (!job_id)
+      throw new HttpException(
+        'job_id is required',
+        HttpStatus.PRECONDITION_FAILED,
+      );
+    await this.jobService.delete(job_id);
+    return res.redirect('/admin');
+  }
+
   private async buildSameAreaJobs(jobs: Job[], areas: Area[], area_id: string) {
     const areaHasJobs = await this.jobHasAreaService.findJobs(area_id);
     const employers = await this.employerService.findAll();
@@ -187,7 +297,7 @@ export class JobController {
       ...jobHasTag.toJSON(),
       ...locations
         .find(({ location_id }) => location_id === jobHasTag.location_id)
-        .toJSON(),
+        ?.toJSON(),
     }));
 
     //job has areas
@@ -195,7 +305,7 @@ export class JobController {
     const jobHasAreas = await this.jobHasAreaService.findAreas(job_id);
     let jobAreas = jobHasAreas.map((jobHasArea) => ({
       ...jobHasArea.toJSON(),
-      ...areas.find(({ area_id }) => area_id === jobHasArea.area_id).toJSON(),
+      ...areas.find(({ area_id }) => area_id === jobHasArea.area_id)?.toJSON(),
     }));
 
     const { area_id, tag_id, location_id } = query;

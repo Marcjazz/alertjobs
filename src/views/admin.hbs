@@ -20,6 +20,11 @@
                 </p>
             </li>
             {{/each}}
+            {{> modals/_location}}
+            <li class="collection-item avatar" style="display: inline-block;">
+                <a href="#new-location" class="secondary-content modal-trigger"><i
+                            class="material-icons">add_box</i></a>
+            </li>
         </ul>
     </div>
     <div id="area-tag" class="section scrollspy col s12">
@@ -28,10 +33,15 @@
             {{#each areas}}
             <li class="collection-item avatar" style="display: inline-block;">
                 <span class="title">{{area_name}}</span>
-                <a href="/area/{{area-id}}/delete" class="secondary-content tag"><i
+                <a href="/areas/{{area_id}}/delete" class="secondary-content tag"><i
                         class="material-icons">delete_forever</i></a>
             </li>
             {{/each}}
+            {{> modals/_area}}
+            <li class="collection-item avatar" style="display: inline-block;">
+                <a href="#new-area" class="secondary-content modal-trigger"><i
+                            class="material-icons">add_box</i></a>
+            </li>
         </ul>
     </div>
     <div id="tag-tag" class="section scrollspy col s12">
@@ -40,14 +50,19 @@
             {{#each tags}}
             <li class="collection-item avatar" style="display: inline-block;">
                 <span class="title">{{tag_name}}</span>
-                <a href="/tag/{{tab_id}}/delete" class="secondary-content tag"><i
+                <a href="/tags/{{tag_id}}/delete" class="secondary-content tag"><i
                         class="material-icons">delete_forever</i></a>
             </li>
             {{/each}}
+            {{> modals/_tag}}
+            <li class="collection-item avatar" style="display: inline-block;">
+                <a href="#new-tag" class="secondary-content modal-trigger"><i
+                            class="material-icons">add_box</i></a>
+            </li>
         </ul>
     </div>
-    {{> admin/_employers}}
-    {{> admin/_jobs}}
+    {{> admin/employers/_employers}}
+    {{> admin/jobs/_jobs}}
 </div>
 <div class="col hide-on-small-only m3 l2">
     <ul class="section table-of-contents" style="position: fixed;">
@@ -61,6 +76,5 @@
         <li><a style="font-weight: bold;" href="#tag-tag">Type de contrat</a></li>
         <li><a style="font-weight: bold;" href="#employers">Employeurs</a></li>
         <li><a style="font-weight: bold;" href="#jobs">Jobs</a></li>
-        </li>
     </ul>
 </div>
