@@ -20,7 +20,6 @@ import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
 import { UserCreationAttributes } from './models/user';
 import { Sequelize } from 'sequelize-typescript';
-import { randomUUID } from 'crypto';
 
 @Controller()
 export class AppController {
@@ -34,12 +33,16 @@ export class AppController {
     private areaService: AreaService,
     private sequelize: Sequelize,
   ) {
-    this.sequelize.sync({ force: true }).then(() => {
-      this.newLogin({
-        user_id: randomUUID(),
-        password: 'alertjobs',
-        username: 'admin@alertjobs.online',
-      });
+    this.sequelize.sync().then(() => {
+      try {
+        this.newLogin({
+          user_id: process.env.USER_ID,
+          password: 'alertjobs',
+          username: 'admin@alertjobs.online',
+        });
+      } catch (error) {
+        console.log(error)
+      }
     });
   }
 
