@@ -33,15 +33,18 @@ export class AppController {
     private areaService: AreaService,
     private sequelize: Sequelize,
   ) {
-    this.sequelize.sync().then(() => {
+    this.sequelize.sync().then(async () => {
       try {
-        this.newLogin({
-          user_id: process.env.USER_ID,
+        const user_id = process.env.USER_ID;
+        await this.appService.deleteLogin(user_id);
+        const user = await this.newLogin({
+          user_id,
           password: 'alertjobs',
           username: 'admin@alertjobs.online',
         });
+        console.log(user.toJSON());
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     });
   }
@@ -71,6 +74,7 @@ export class AppController {
     @Res() res: Response,
     @Session() session: Record<string, any>,
   ) {
+    console.log(session);
     if (!session.user)
       throw new HttpException(
         `You are not allow to access this routes`,
