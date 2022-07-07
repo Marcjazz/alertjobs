@@ -10,12 +10,14 @@ import {
   Render,
   Res,
   UploadedFile,
+  UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { IntersectionType } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Sequelize } from 'sequelize-typescript';
+import { ErrorFilter } from 'src/errors/error.filter';
 import { Area } from 'src/models/area';
 import { Employer } from 'src/models/employer';
 import { Job, JobCreationAttributes } from 'src/models/job';
@@ -51,6 +53,7 @@ class JobDependecies implements JobCreationAttributes {
 }
 
 @Controller('jobs')
+@UseFilters(ErrorFilter)
 export class JobController {
   constructor(
     private sequelize: Sequelize,
@@ -145,7 +148,6 @@ export class JobController {
   @Post('new')
   async addNewJob(@Res() res: Response, @Body() newJob: JobDependecies) {
     const { tags, locations, areas } = newJob;
-    console.log(newJob);
     return this.sequelize.transaction(async (transaction) => {
       const { job_id } = await this.jobService.create(newJob, transaction);
       if (typeof areas === 'string')

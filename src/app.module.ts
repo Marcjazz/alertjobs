@@ -3,8 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ErrorService } from './errors/error.filter';
-import { ErrorModule } from './errors/error.module';
 import { Area } from './models/area';
 import { Country } from './models/country';
 import { Employer } from './models/employer';
@@ -64,7 +62,6 @@ import { TagService } from './services/tag.service';
     TagModule,
     JobModule,
     AreaModule,
-    ErrorModule,
     EmployerModule,
     LocationModule,
     SubscriberModule,
@@ -75,7 +72,6 @@ import { TagService } from './services/tag.service';
     TagService,
     JobService,
     AreaService,
-    ErrorService,
     CountryService,
     EmployerService,
     LocastionService,

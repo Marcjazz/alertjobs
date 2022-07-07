@@ -8,6 +8,7 @@ import {
   Render,
   Res,
   Session,
+  UseFilters,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AreaService } from './services/area.service';
@@ -20,8 +21,10 @@ import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
 import { UserCreationAttributes } from './models/user';
 import { Sequelize } from 'sequelize-typescript';
+import { ErrorFilter } from './errors/error.filter';
 
 @Controller()
+@UseFilters(ErrorFilter)
 export class AppController {
   constructor(
     private readonly appService: AppService,

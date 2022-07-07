@@ -9,14 +9,17 @@ import {
   Render,
   Res,
   UploadedFile,
+  UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
+import { ErrorFilter } from 'src/errors/error.filter';
 import { EmployerCreationAttributes } from 'src/models/employer';
 import { EmployerService } from 'src/services/employer.service';
 
 @Controller('employers')
+@UseFilters(ErrorFilter)
 export class EmployerController {
   constructor(private employerService: EmployerService) {}
 
