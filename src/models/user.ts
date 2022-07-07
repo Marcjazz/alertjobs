@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
-import { DataTypes, Model, Optional } from 'sequelize';
-import { Column, PrimaryKey, Table } from 'sequelize-typescript';
+import { DataTypes, Optional } from 'sequelize';
+import { Column, PrimaryKey, Model, Table } from 'sequelize-typescript';
 
 export interface UserAttributes {
   user_id: string;

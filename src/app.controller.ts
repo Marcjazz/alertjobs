@@ -1,4 +1,14 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Post,
+  Render,
+  Res,
+  Session,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { AreaService } from './services/area.service';
 import { CountryService } from './services/country.service';
@@ -6,6 +16,11 @@ import { EmployerService } from './services/employer.service';
 import { JobService } from './services/job.service';
 import { LocastionService } from './services/location.service';
 import { TagService } from './services/tag.service';
+import * as bcrypt from 'bcrypt';
+import { Response } from 'express';
+import { UserCreationAttributes } from './models/user';
+import { Sequelize } from 'sequelize-typescript';
+import { randomUUID } from 'crypto';
 
 @Controller()
 export class AppController {
@@ -17,7 +32,16 @@ export class AppController {
     private employerService: EmployerService,
     private jobService: JobService,
     private areaService: AreaService,
-  ) {}
+    private sequelize: Sequelize,
+  ) {
+    this.sequelize.sync({ force: true }).then(() => {
+      this.newLogin({
+        user_id: randomUUID(),
+        password: 'alertjobs',
+        username: 'admin@alertjobs.online',
+      });
+    });
+  }
 
   @Get()
   @Render('index')
@@ -40,7 +64,15 @@ export class AppController {
 
   @Get('admin')
   @Render('admin')
-  async adminRoot() {
+  async adminRoot(
+    @Res() res: Response,
+    @Session() session: Record<string, any>,
+  ) {
+    if (!session.user)
+      throw new HttpException(
+        `You are not allow to access this routes`,
+        HttpStatus.NON_AUTHORITATIVE_INFORMATION,
+      );
     const jobs = await this.jobService.findAll();
     const locations = await this.locationService.findAll();
 
@@ -94,5 +126,33 @@ export class AppController {
         };
       }),
     };
+  }
+
+  @Post('login')
+  async loginUser(
+    @Res() res: Response,
+    @Session() session: Record<string, any>,
+    @Body() login: { username: string; password: string },
+  ) {
+    const user = await this.appService.login(login.username);
+    if (user && bcrypt.compareSync(login.password, user.password)) {
+      const { password, ...userSession } = user.toJSON();
+      session.user = userSession;
+      return res.redirect('/admin');
+    }
+    res.redirect('/');
+  }
+
+  @Post('new-login')
+  async newLogin(@Body() user: UserCreationAttributes) {
+    if (!user.password || !user.username)
+      throw new HttpException(
+        'Password and email are required',
+        HttpStatus.BAD_REQUEST,
+      );
+    return this.appService.createLogin({
+      ...user,
+      password: bcrypt.hashSync(user.password, 10),
+    });
   }
 }

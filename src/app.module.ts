@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ErrorService } from './errors/error.filter';
+import { ErrorModule } from './errors/error.module';
 import { Area } from './models/area';
 import { Country } from './models/country';
 import { Employer } from './models/employer';
@@ -14,6 +16,7 @@ import { JobHasTag } from './models/job-has-tag';
 import { Location } from './models/location';
 import { Subscriber } from './models/subscriber';
 import { Tag } from './models/tag';
+import { User } from './models/user';
 import { AreaModule } from './modules/area.module';
 import { EmployerModule } from './modules/employer.module';
 import { JobModule } from './modules/job.module';
@@ -45,6 +48,7 @@ import { TagService } from './services/tag.service';
       models: [
         Job,
         Tag,
+        User,
         Area,
         Country,
         Location,
@@ -56,10 +60,11 @@ import { TagService } from './services/tag.service';
         JobHasLocation,
       ],
     }),
-    SequelizeModule.forFeature([Area, Job, Tag, Country, Location, Employer]),
+    SequelizeModule.forFeature([User, Area, Job, Tag, Country, Location, Employer]),
     TagModule,
     JobModule,
     AreaModule,
+    ErrorModule,
     EmployerModule,
     LocationModule,
     SubscriberModule,
@@ -70,9 +75,10 @@ import { TagService } from './services/tag.service';
     TagService,
     JobService,
     AreaService,
+    ErrorService,
     CountryService,
-    LocastionService,
     EmployerService,
+    LocastionService,
   ],
 })
 export class AppModule {}
