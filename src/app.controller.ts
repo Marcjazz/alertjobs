@@ -74,7 +74,6 @@ export class AppController {
     @Res() res: Response,
     @Session() session: Record<string, any>,
   ) {
-    console.log(session);
     if (!session.user)
       throw new HttpException(
         `You are not allow to access this routes`,
