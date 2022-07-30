@@ -35,11 +35,11 @@ export class AppController {
     private sequelize: Sequelize,
   ) {
     this.sequelize.sync({ force: true }).then(() => {
-      this.newLogin({
-        user_id: randomUUID(),
-        password: 'alertjobs',
-        username: 'admin@alertjobs.online',
-      });
+      //   this.newLogin({
+      //     user_id: randomUUID(),
+      //     password: 'alertjobs',
+      //     username: 'admin@alertjobs.online',
+      //   });
     });
   }
 
@@ -144,15 +144,25 @@ export class AppController {
   }
 
   @Post('new-login')
-  async newLogin(@Body() user: UserCreationAttributes) {
-    if (!user.password || !user.username)
+  async newLogin(
+    @Body('user') newUser: UserCreationAttributes,
+    @Body('credential') credential: { username: string; password: string },
+  ) {
+    if (!newUser.password || !newUser.username)
       throw new HttpException(
         'Password and email are required',
         HttpStatus.BAD_REQUEST,
       );
-    return this.appService.createLogin({
-      ...user,
-      password: bcrypt.hashSync(user.password, 10),
-    });
+    const admin = await this.appService.login(credential.username);
+    if (
+      admin &&
+      bcrypt.compareSync(credential.password, admin.password) &&
+      admin.user_type === 'OWNER'
+    ) {
+      return this.appService.createLogin({
+        ...newUser,
+        password: bcrypt.hashSync(newUser.password, 10),
+      });
+    }
   }
 }
