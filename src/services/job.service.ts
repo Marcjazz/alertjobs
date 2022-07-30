@@ -12,7 +12,9 @@ export class JobService {
   ) {}
 
   async findAll(): Promise<Job[]> {
-    return this.jobModel.findAll();
+    return this.jobModel.findAll({
+      order: [['posted_at', 'DESC']],
+    });
   }
 
   async findOne(job_id: string): Promise<Job> {
