@@ -9,7 +9,6 @@
 </div>
 <div class="input-field col s12">
     <select name="areas" id="areas-{{job_id}}-select" multiple required>
-        <option value="" disabled selected>Choisissez les domaines professionnelles</option>
         {{#each areas}}
         <option value="{{area_id}}">{{area_name}}</option>
         {{/each}}
@@ -18,7 +17,6 @@
 </div>
 <div class="input-field col s12">
     <select name="tags" id="tags-{{job_id}}-select" multiple>
-        <option value="" disabled>Choisissez les types de contrats</option>
         {{#each tags}}
         <option value="{{tag_id}}">{{tag_name}}</option>
         {{/each}}
@@ -40,27 +38,27 @@
 </div>
 <div class="input-field col s12">
     <input id="job_title-{{job_id}}" name="job_title" value="{{job_title}}" type="text" class="validate" required>
-    <label for="job_title">Poste*</label>
+    <label for="job_title-{{job_id}}">Poste*</label>
 </div>
 <div class="input-field col s12">
     <input id="job_salary-{{job_id}}" name="job_salary" value="{{job_salary}}" type="number" class="validate">
-    <label for="job_salary">Salaire</label>
+    <label for="job_salary-{{job_id}}">Salaire</label>
 </div>
 <div class="input-field col s12">
     <input id="job_apply_address-{{job_id}}" value="{{job_apply_address}}" name="job_apply_address" type="text"
         class="validate" required>
-    <label for="job_apply_address">Address de Recrutement*</label>
+    <label for="job_apply_address-{{job_id}}">Address de Recrutement*</label>
 </div>
 <div class="input-field col s12 row">
     <div class="col s6">
         <input id="job_minimal_age-{{job_id}}" name="job_minimal_age" value="{{job_minimal_age}}" type="number"
-            class="validate">
-        <label for="job_minimal_age">Age minimal</label>
+            class="validate" required>
+        <label for="job_minimal_age-{{job_id}}">Age minimal</label>
     </div>
     <div class="col s6">
         <input id="job_maximal_age-{{job_id}}" name="job_maximal_age" value="{{job_maximal_age}}" type="number"
-            class="validate">
-        <label for="job_maximal_age">Age maxiaml</label>
+            class="validate" required>
+        <label for="job_maximal_age-{{job_id}}">Age maxiaml</label>
     </div>
 </div>
 <div class="input-field col s12">

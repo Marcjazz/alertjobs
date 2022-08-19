@@ -28,6 +28,7 @@ export class JobHasLocationService {
     bulkData: Array<JobHasLocationCreationAttributes>,
     transaction?: Transaction,
   ) {
+    console.log(bulkData);
     return this.jobHasLocation.bulkCreate(bulkData, {
       transaction,
     });

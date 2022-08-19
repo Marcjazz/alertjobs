@@ -151,38 +151,44 @@ export class JobController {
     try {
       return this.sequelize.transaction(async (transaction) => {
         const { job_id } = await this.jobService.create(newJob, transaction);
-        if (typeof areas === 'string')
-          await this.jobHasAreaService.bulkCreate(
-            [{ area_id: areas, job_id }],
-            transaction,
-          );
-        else
-          await this.jobHasAreaService.bulkCreate(
-            areas?.map((area_id) => ({ area_id, job_id })),
-            transaction,
-          );
+        if (areas) {
+          if (typeof areas === 'string')
+            await this.jobHasAreaService.bulkCreate(
+              [{ area_id: areas, job_id }],
+              transaction,
+            );
+          else
+            await this.jobHasAreaService.bulkCreate(
+              areas?.map((area_id) => ({ area_id, job_id })),
+              transaction,
+            );
+        }
 
-        if (typeof tags === 'string')
-          await this.jobHasTagService.bulkCreate(
-            [{ tag_id: tags, job_id }],
-            transaction,
-          );
-        else
-          await this.jobHasTagService.bulkCreate(
-            tags?.map((tag_id) => ({ tag_id, job_id })),
-            transaction,
-          );
+        if (tags) {
+          if (typeof tags === 'string')
+            await this.jobHasTagService.bulkCreate(
+              [{ tag_id: tags, job_id }],
+              transaction,
+            );
+          else
+            await this.jobHasTagService.bulkCreate(
+              tags?.map((tag_id) => ({ tag_id, job_id })),
+              transaction,
+            );
+        }
 
-        if (typeof locations === 'string')
-          await this.jobHasLocationService.bulkCreate(
-            [{ location_id: locations, job_id }],
-            transaction,
-          );
-        else
-          await this.jobHasLocationService.bulkCreate(
-            locations?.map((location_id) => ({ location_id, job_id })),
-            transaction,
-          );
+        if (locations) {
+          if (typeof locations === 'string')
+            await this.jobHasLocationService.bulkCreate(
+              [{ location_id: locations, job_id }],
+              transaction,
+            );
+          else
+            await this.jobHasLocationService.bulkCreate(
+              locations?.map((location_id) => ({ location_id, job_id })),
+              transaction,
+            );
+        }
         return res.redirect('/admin');
       });
     } catch (error) {

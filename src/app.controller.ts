@@ -79,15 +79,13 @@ export class AppController {
     const locations = await this.locationService.findAll();
 
     const countries = (await this.countryService.findAll()).map(
-      ({ country_id, country_name }) => {
-        return {
-          country_id,
-          country_name,
-          locations: locations
-            .filter(({ country_id: id }) => id === country_id)
-            .map((location) => location.toJSON()),
-        };
-      },
+      ({ country_id, country_name }) => ({
+        country_id,
+        country_name,
+        locations: locations
+          .filter(({ country_id: id }) => id === country_id)
+          .map((location) => location.toJSON()),
+      }),
     );
 
     const employers = (await this.employerService.findAll()).map((employer) =>
@@ -101,32 +99,30 @@ export class AppController {
     );
 
     return {
-      jobs: jobs.map((job) => {
-        return {
-          ...job.toJSON(),
-          employer_name: employers.find(
-            ({ employer_id }) => employer_id === job.employer_id,
-          )?.employer_name,
+      jobs: jobs.map((job) => ({
+        ...job.toJSON(),
+        employer_name: employers.find(
+          ({ employer_id }) => employer_id === job.employer_id,
+        )?.employer_name,
+        job_maximal_age: job.job_maximal_age ?? null,
+        job_minimal_age: job.job_minimal_age ?? null,
 
-          //form-select data for hbs
-          tags,
-          areas,
-          countries,
-          employers,
-        };
-      }),
+        //form-select data for hbs
+        tags,
+        areas,
+        countries,
+        employers,
+      })),
       tags,
       areas,
       countries,
       employers,
-      locations: locations.map((location) => {
-        return {
-          ...location.toJSON(),
-          country_name: countries.find(
-            ({ country_id }) => country_id === location.country_id,
-          )?.country_name,
-        };
-      }),
+      locations: locations.map((location) => ({
+        ...location.toJSON(),
+        country_name: countries.find(
+          ({ country_id }) => country_id === location.country_id,
+        )?.country_name,
+      })),
     };
   }
 
