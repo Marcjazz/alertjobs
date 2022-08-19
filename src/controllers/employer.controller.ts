@@ -37,8 +37,15 @@ export class EmployerController {
     @Res() res: Response,
     @Body() newEmployer: EmployerCreationAttributes,
   ) {
+    // try {
     await this.employerService.create(newEmployer);
     return res.redirect('/admin');
+    // } catch (error) {
+    //   throw new HttpException(
+    //     `Could not create employer: ${error?.message}`,
+    //     HttpStatus.BAD_REQUEST,
+    //   );
+    // }
   }
 
   @Post(':employer_id/edit-image')
@@ -54,8 +61,17 @@ export class EmployerController {
         'employer_id is required',
         HttpStatus.PRECONDITION_FAILED,
       );
-    await this.employerService.update(employer_id, { logo_ref: file.filename });
-    return res.redirect('/admin');
+    try {
+      await this.employerService.update(employer_id, {
+        logo_ref: file.filename,
+      });
+      return res.redirect('/admin');
+    } catch (error) {
+      throw new HttpException(
+        `Could not create employer: ${error?.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Post(':employer_id/edit')
@@ -69,7 +85,14 @@ export class EmployerController {
         'employer_id is required',
         HttpStatus.PRECONDITION_FAILED,
       );
-    await this.employerService.update(employer_id, employer);
-    return res.redirect('/admin');
+    try {
+      await this.employerService.update(employer_id, employer);
+      return res.redirect('/admin');
+    } catch (error) {
+      throw new HttpException(
+        `Could not create employer: ${error?.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }

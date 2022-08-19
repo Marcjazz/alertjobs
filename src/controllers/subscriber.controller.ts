@@ -15,13 +15,23 @@ export class SubscriberController {
   constructor(private subscriberService: SubscriberService) {}
 
   @Post('new')
-  async newSubscription(@Res() res: Response, @Body('email') subscriber_email: string) {
+  async newSubscription(
+    @Res() res: Response,
+    @Body('email') subscriber_email: string,
+  ) {
     if (!subscriber_email)
       throw new HttpException('Incomplete Data supply', HttpStatus.BAD_REQUEST);
-    await this.subscriberService.create({
-      subscriber_id: randomUUID(),
-      subscriber_email,
-    });
-    res.redirect('/')
+    try {
+      await this.subscriberService.create({
+        subscriber_id: randomUUID(),
+        subscriber_email,
+      });
+      res.redirect('/');
+    } catch (error) {
+      throw new HttpException(
+        `Could not create employer: ${error?.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

@@ -24,8 +24,8 @@ export class JobService {
   async create(newJob: JobCreationAttributes, transaction?: Transaction) {
     return this.jobModel.create(
       {
-        job_id: randomUUID(),
         ...newJob,
+        job_id: randomUUID(),
       },
       { transaction },
     );

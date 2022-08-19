@@ -148,8 +148,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                   id: area_id,
                                   className: 'tag-button tag',
                                   style: {
-                                    backgroundColor: 'whitesmoke'
-                                  }
+                                    backgroundColor: 'whitesmoke',
+                                  },
                                 },
                                 area_name,
                               ),

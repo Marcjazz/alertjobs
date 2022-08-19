@@ -36,7 +36,13 @@ export class AppController {
     private areaService: AreaService,
     private sequelize: Sequelize,
   ) {
-    this.sequelize.sync();
+    this.sequelize.sync().then(() => {
+      // this.appService.createLogin({
+      //   user_id: process.env.USER_ID,
+      //   username: 'admin@alertjobs.online',
+      //   password: bcrypt.hashSync('alertjobs-online', 10),
+      // });
+    });
   }
 
   @Get()

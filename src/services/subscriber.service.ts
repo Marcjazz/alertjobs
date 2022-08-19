@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { randomUUID } from 'crypto';
 import {
   Subscriber,
   SubscriberCreationAttributes,
@@ -12,6 +13,9 @@ export class SubscriberService {
   ) {}
 
   async create(subscriber: SubscriberCreationAttributes) {
-    return this.subscriberModel.create(subscriber);
+    return this.subscriberModel.create({
+      ...subscriber,
+      subscriber_id: randomUUID(),
+    });
   }
 }

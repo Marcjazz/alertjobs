@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { LocationCreationAttributes } from 'src/models/location';
 import { LocastionService } from 'src/services/location.service';
@@ -12,8 +21,15 @@ export class LocationController {
     @Res() res: Response,
     @Body() newLocation: LocationCreationAttributes,
   ) {
-    await this.locationService.create(newLocation);
-    res.redirect('/admin');
+    try {
+      await this.locationService.create(newLocation);
+      res.redirect('/admin');
+    } catch (error) {
+      throw new HttpException(
+        `Could not create employer: ${error?.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   @Get(':location_id/delete')

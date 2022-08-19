@@ -17,8 +17,8 @@ export class EmployerService {
 
   async create(newEmployer: EmployerCreationAttributes) {
     return this.employerModel.create({
-      employer_id: randomUUID(),
       ...newEmployer,
+      employer_id: randomUUID(),
     });
   }
 

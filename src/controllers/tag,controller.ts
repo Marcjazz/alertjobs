@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { TagCreationAttributes } from 'src/models/tag';
 import { TagService } from 'src/services/tag.service';
@@ -17,8 +26,15 @@ export class TagController {
 
   @Post('new')
   async addNewTag(@Res() res: Response, @Body() newTag: TagCreationAttributes) {
-    await this.tagService.create(newTag);
-    res.redirect('/admin');
+    try {
+      await this.tagService.create(newTag);
+      res.redirect('/admin');
+    } catch (error) {
+      throw new HttpException(
+        `Could not create employer: ${error?.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Get(':tag_id/delete')
