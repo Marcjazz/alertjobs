@@ -4,7 +4,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { engine } from 'express-handlebars';
 import { AppModule } from './app.module';
 import * as session from 'express-session';
-const MemoryStore = require('memorystore')(session);
+import { Logger } from '@nestjs/common';
+import MemoryStore = require('memorystore');
 
 declare const module: any;
 
@@ -18,11 +19,12 @@ async function bootstrap() {
 
   app.use(
     session({
-      secret: 'alert-jobs',
       resave: false,
+      secret: 'alert-jobs',
       saveUninitialized: false,
-      store: new MemoryStore({
-        checkPeriod: 86400000,
+      name: 'AlertJobSession',
+      store: new (MemoryStore(session))({
+        checkPeriod: 12 * 60 * 60 * 1000,
       }),
     }),
   );
@@ -35,7 +37,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(process.env.PORT || 8080);
+  const PORT = process.env.PORT || 8080;
+  await app.listen(PORT);
+  Logger.log(`Server is runnnig on port ${PORT}`);
 
   if (module.hot) {
     module.hot.accept();
