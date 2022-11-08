@@ -37,11 +37,7 @@ export class AppController {
     private sequelize: Sequelize,
   ) {
     this.sequelize.sync().then(() => {
-      // this.appService.createLogin({
-      //   user_id: process.env.USER_ID,
-      //   username: 'admin@alertjobs.online',
-      //   password: bcrypt.hashSync('alertjobs-online', 10),
-      // });
+      console.log(`Sequelize sync successfully`);
     });
   }
 
@@ -134,6 +130,7 @@ export class AppController {
   ) {
     const user = await this.appService.login(login.username);
     if (user && bcrypt.compareSync(login.password, user.password)) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...userSession } = user.toJSON();
       session.user = userSession;
       return res.redirect('/admin');
