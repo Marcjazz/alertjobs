@@ -81,9 +81,9 @@ document.addEventListener('DOMContentLoaded', function () {
       const data = jobs.reduce(
         (
           newObject,
-          { job_flyer, job_id, job_title, job_apply_address, job_salary },
+          { job_flyer, job_id, job_title, job_description, job_salary },
         ) => {
-          const option = `${job_title}, ${job_apply_address}, ${
+          const option = `${job_title}, ${job_description}, ${
             job_salary ?? '?'
           } XAF`;
           newObject[option] = `/images/${job_flyer}`;

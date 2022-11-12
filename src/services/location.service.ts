@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { randomUUID } from 'crypto';
+import { Transaction } from 'sequelize/types';
 import { Location, LocationCreationAttributes } from 'src/models/location';
 
 @Injectable()
@@ -15,11 +16,24 @@ export class LocastionService {
     return this.locationModel.findByPk(location_id);
   }
 
-  async create(newLocation: LocationCreationAttributes) {
-    return this.locationModel.create({
-      ...newLocation,
-      location_id: randomUUID(),
-    });
+  async create(
+    newLocation: LocationCreationAttributes,
+    transaction?: Transaction,
+  ) {
+    return this.locationModel.create(
+      {
+        ...newLocation,
+        location_id: randomUUID(),
+      },
+      { transaction },
+    );
+  }
+
+  async createMany(
+    newLocations: LocationCreationAttributes[],
+    transaction?: Transaction,
+  ) {
+    return this.locationModel.bulkCreate(newLocations, { transaction });
   }
 
   async delete(location_id: string) {

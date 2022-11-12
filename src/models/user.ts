@@ -47,6 +47,7 @@ export class User
         username: {
           type: DataTypes.STRING(70),
           allowNull: false,
+          unique: true,
         },
         user_type: {
           type: DataTypes.ENUM('MANAGER', 'OWNER'),

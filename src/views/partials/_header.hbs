@@ -1,35 +1,63 @@
 <style>
     .home-header {
-        background-image: url('/images/welcome-image.png');
-        min-height: 30vh;
+        background-image: url('/images/shutterstock_412257712-2.jpg');
+        min-height: 75vh;
         background-position: center;
-        background-size: 100vw;
         display: grid;
-        align-items: end;
+        align-items: center;
         padding: 10px;
         grid-auto-flow: column;
-        justify-content: end;
+        justify-content: center;
     }
 
     .home-header>div {
-        width: 60vw;
+        width: 70vw;
     }
 
     #search-input {
-        box-shadow: 1px 1px 16px var(--secondary-color);
+        width: 70vw;
+        max-width: 750px;
+        border-radius: 2px;
+    }
+
+    #jobs-filter {
+        padding: 5px;
+        display: grid;
+        text-align: center;
+    }
+
+    #jobs-filter>div {
+        justify-self: center;
+    }
+
+    #select-filter>div>input {
+        box-shadow: 1px 1px 16px var(--background-color);
+        background-color: white;
+        box-sizing: border-box;
+        border-radius: 15px;
+        height: 35px;
+        padding: 9px;
+    }
+
+    #areas {
+        margin-top: 20px;
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: center;
+        justify-self: start;
     }
 </style>
 <header>
     <div class="navbar-fixed">
         <nav>
             <div class="nav-wrapper">
-                <a href="/" class="brand-logo" style="color: black; height: fit-content;"><b>Alert Jobs</b></a>
+                <a href="/" class="brand-logo" style="height: fit-content;"><b>Alert Jobs</b></a>
                 <a data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="/">ACCEUIL</a></li>
                     <li><a href="/employers">RECRUTEURS</a></li>
                     {{!-- <li><a href="/about">A PROPOS</a></li> --}}
-                    <li><a class="modal-trigger" href="#login-dialog">LOGIN</a></li>
+                    <li><a href="/login">LOGIN</a></li>
                 </ul>
             </div>
         </nav>
@@ -38,7 +66,7 @@
         <li><a href="/">ACCEUIL</a></li>
         <li><a href="/employers">RECRUTEURS</a></li>
         {{!-- <li><a href="/about">A PROPOS</a></li> --}}
-        <li><a class="modal-trigger" href="#login-dialog">LOGIN</a></li>
+        <li><a href="/login">LOGIN</a></li>
     </ul>
     <div class="fixed-action-btn">
         <a class="btn-floating btn-large">
@@ -46,6 +74,8 @@
         </a>
     </div>
 </header>
+<div id="login-error" style="background: #ff000061; font-size: 25px; text-align: center;">{{errorMessage}}</div>
+{{#if showJobFilter}}
 {{#if job?.job_flyer}}
 <div class="home-header" style="background-image: url(/images/{{job_flyer}});">
     <div class="input-field">
@@ -55,22 +85,32 @@
 {{else}}
 <div class="home-header">
     <div class="input-field">
-        <input type="text" name="search" id="search-input" class="autocomplete" placeholder="Que cherchez-vous ?">
+        <h4 style="font-weight: bold; text-transform: uppercase; text-align: center; color: var(--background-color);">
+            Retrouvez les jobs de votre localité</h4>
+        <div style="display: grid; grid-auto-flow: column; justify-content: center;">
+            <input type="text" name="search" id="search-input" class="autocomplete" placeholder="Que cherchez-vous ?">
+        </div>
+        <div id="jobs-filter" style="padding: 5px; text-align: center;">
+            <h4 style="font-weight: bold;">Quels sont vos critères </h4>
+            <div id="select-filter" style="display: flex; gap: 10px;justify-content: center;">
+                <select name="location">
+                    {{#each countries}}
+                    <optgroup label="{{country_name}}">
+                        {{#each locations}}
+                        <option value="{{location_id}}">{{town}}</option>
+                        {{/each}}
+                    </optgroup>
+                    {{/each}}
+                </select>
+                <select name="tag">
+                    {{#each tags}}
+                    <option value="CDD">{{tag_name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        <div id="jobs-area" style="text-align: center;"></div>
     </div>
 </div>
 {{/if}}
-<form action="/login" method="post" id="login-dialog" class="modal" style="max-width: 500px;">
-    <div class="modal-content">
-        <div class="input-field col s12">
-            <input id="username" name="username" type="email" class="validate" required>
-            <label for="username">Email</label>
-        </div>
-        <div class="input-field col s12">
-            <input id="password" name="password" type="password" class="validate" required>
-            <label for="password">Password</label>
-        </div>
-        <div class="input-field col s12" style="text-align: end;">
-            <button class="btn" type="submit">Se connecter</button>
-        </div>
-    </div>
-</form>
+{{/if}}

@@ -42,7 +42,7 @@ class JobDependecies implements JobCreationAttributes {
   job_minimal_age?: number;
   job_maximal_age?: number;
   job_todos: string;
-  job_apply_address: string;
+  job_description: string;
   employer_id: string;
   job_flyer?: string;
   posted_at?: Date;
@@ -142,15 +142,23 @@ export class JobController {
         ...(await this.getJobRelatedData(job_id, {})),
         sameAreaJobs: sameAreaJobs.filter(({ job_id: id }) => id !== job_id),
       },
+      showJobFilter: true,
     };
   }
 
   @Post('new')
   async addNewJob(@Res() res: Response, @Body() newJob: JobDependecies) {
-    const { tags, locations, areas } = newJob;
+    const { tags, locations, areas, ...jobData } = newJob;
     try {
       return this.sequelize.transaction(async (transaction) => {
-        const { job_id } = await this.jobService.create(newJob, transaction);
+        const { job_id } = await this.jobService.create(
+          {
+            ...jobData,
+            job_salary:
+              jobData.job_salary.toString() === '' ? null : jobData.job_salary,
+          },
+          transaction,
+        );
         if (areas) {
           if (typeof areas === 'string')
             await this.jobHasAreaService.bulkCreate(

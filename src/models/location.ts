@@ -1,7 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes } from 'sequelize';
 import {
-  BelongsTo,
   Column,
   ForeignKey,
   HasMany,

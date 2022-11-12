@@ -12,9 +12,8 @@ export class ErrorFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    console.log(exception);
     response.render('errors/500', {
-      message: exception.getResponse(),
+      errorMessage: exception.getResponse(),
     });
   }
 }

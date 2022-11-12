@@ -1,5 +1,5 @@
 import { InjectModel } from '@nestjs/sequelize';
-import { randomUUID } from 'crypto';
+import { Transaction } from 'sequelize/types';
 import { Country, CountryCreationAttributes } from 'src/models/country';
 
 export class CountryService {
@@ -16,11 +16,11 @@ export class CountryService {
     return this.countryModel.findByPk(country_id);
   }
 
-  async create(newCountry: CountryCreationAttributes) {
-    return this.countryModel.create({
-      ...newCountry,
-      country_id: randomUUID(),
-    });
+  async create(
+    newCountry: CountryCreationAttributes,
+    transaction?: Transaction,
+  ) {
+    return this.countryModel.create(newCountry, { transaction });
   }
 
   async delete(country_id: string) {

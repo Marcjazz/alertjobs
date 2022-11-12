@@ -21,7 +21,7 @@ export interface JobAttributes {
   job_minimal_age?: number;
   job_maximal_age?: number;
   job_todos: string;
-  job_apply_address: string;
+  job_description: string;
   employer_id: string;
   posted_at: Date;
   job_flyer?: string;
@@ -63,7 +63,7 @@ export class Job
   job_todos!: string;
 
   @Column
-  job_apply_address!: string;
+  job_description!: string;
 
   @Column
   @ForeignKey(() => Employer)
@@ -117,8 +117,8 @@ export class Job
           type: DataTypes.TEXT,
           allowNull: false,
         },
-        job_apply_address: {
-          type: DataTypes.STRING(45),
+        job_description: {
+          type: DataTypes.STRING(255),
           allowNull: false,
         },
         employer_id: {
