@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
               job_title = _ref.job_title,
               job_salary = _ref.job_salary,
               employer = _ref.employer,
-              job_apply_address = _ref.job_apply_address;
+              job_description = _ref.job_description;
             return React.createElement(
               'div',
               {
@@ -149,6 +149,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     /*#__PURE__*/ React.createElement(
                       'p',
                       null,
+                      job_description,
+                    ),
+                    /*#__PURE__*/ React.createElement(
+                      'p',
                       /*#__PURE__*/ React.createElement(
                         'i',
                         {
@@ -157,8 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         },
                         'location_on',
                       ),
-                      locations.map(({ location }) => location),
-                      job_apply_address,
+                      locations.map(({ town: location }) => `${location}, `),
                     ),
                     /*#__PURE__*/ React.createElement(
                       'p',
@@ -188,12 +191,13 @@ document.addEventListener('DOMContentLoaded', function () {
                       'a',
                       {
                         href: employer.employer_linkedin,
+                        style: { display: 'flex', alignItems: 'center' },
                       },
                       employer.logo_ref
                         ? /*#__PURE__*/ React.createElement('img', {
                             width: '50',
                             height: '50',
-                            src: employer.logo_ref,
+                            src: `/images/${employer.logo_ref}`,
                             alt: 'logo ref',
                           })
                         : null,
@@ -212,7 +216,6 @@ document.addEventListener('DOMContentLoaded', function () {
     root.render(e(Jobs));
   }
   const jobOptions = document.querySelector('#jobs-area');
-  console.log(jobOptions);
   if (jobOptions) {
     const OptionalArea = ({ handleChoise }) => {
       const [areas, setAreas] = React.useState([]);

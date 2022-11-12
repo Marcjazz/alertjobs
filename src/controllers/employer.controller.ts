@@ -28,6 +28,7 @@ export class EmployerController {
   async renderEmployers() {
     const employers = await this.employerService.findAll();
     return {
+      showJobFilter: true,
       employers: employers.map((employer) => employer.toJSON()),
     };
   }

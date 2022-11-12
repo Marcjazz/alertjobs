@@ -74,8 +74,9 @@
         </a>
     </div>
 </header>
-{{#if isLogin}}
-{{else if job?.job_flyer}}
+<div id="login-error" style="background: #ff000061; font-size: 25px; text-align: center;">{{errorMessage}}</div>
+{{#if showJobFilter}}
+{{#if job?.job_flyer}}
 <div class="home-header" style="background-image: url(/images/{{job_flyer}});">
     <div class="input-field">
         <input type="text" name="search" id="search-input" class="autocomplete" placeholder="Que cherchez-vous ?">
@@ -111,4 +112,5 @@
         <div id="jobs-area" style="text-align: center;"></div>
     </div>
 </div>
+{{/if}}
 {{/if}}
