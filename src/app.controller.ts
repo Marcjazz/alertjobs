@@ -22,6 +22,7 @@ import { Response } from 'express';
 import { UserCreationAttributes } from './models/user';
 import { Sequelize } from 'sequelize-typescript';
 import { ErrorFilter } from './errors/error.filter';
+import { randomUUID } from 'crypto';
 
 @Controller()
 @UseFilters(ErrorFilter)
@@ -36,27 +37,97 @@ export class AppController {
     private areaService: AreaService,
     private sequelize: Sequelize,
   ) {
-    this.sequelize.sync().then(() => {
-      console.log(`Sequelize sync successfully`);
+    this.sequelize.sync({ force: true }).then(async () => {
+      const country_id = randomUUID();
+      const tags = await this.tagService.findAll();
+      const country = await this.countryService.findAll();
+      const locations = await this.locationService.findAll();
+      const transaction = await sequelize.transaction();
+      try {
+        if (country.length === 0) {
+          await this.countryService.create(
+            {
+              country_id,
+              country_name: 'CAMEROON',
+            },
+            transaction,
+          );
+        }
+        if (locations.length === 0) {
+          await this.locationService.createMany(
+            [
+              {
+                country_id,
+                town: 'YAOUNDE',
+                location_id: randomUUID(),
+              },
+              {
+                country_id,
+                town: 'DOUALA',
+                location_id: randomUUID(),
+              },
+              {
+                country_id,
+                town: 'BUEA',
+                location_id: randomUUID(),
+              },
+            ],
+            transaction,
+          );
+        }
+        if (tags.length === 0) {
+          await this.tagService.createMany(
+            [
+              {
+                tag_id: randomUUID(),
+                tag_name: 'CDD',
+              },
+              {
+                tag_id: randomUUID(),
+                tag_name: 'CDI',
+              },
+              {
+                tag_id: randomUUID(),
+                tag_name: 'CDT',
+              },
+            ],
+            transaction,
+          );
+        }
+        await transaction.commit();
+        console.log(`Sequelize sync successfully`);
+      } catch (error) {
+        await transaction.rollback();
+        console.log(error?.message);
+      }
     });
+  }
+
+  @Get('login')
+  @Render('login')
+  async renderLogin() {
+    return;
   }
 
   @Get()
   @Render('index')
   async root() {
-    const countries = await this.countryService.findAll();
-    const locations = await this.locationService.findAll();
     const tags = await this.tagService.findAll();
+    const countryData = await this.countryService.findAll();
+    const locations = await this.locationService.findAll();
+
+    const countries = countryData.map(({ country_id, country_name }) => {
+      return {
+        country_name,
+        locations: locations
+          .filter(({ country_id: id }) => id === country_id)
+          .map((location) => location.toJSON()),
+      };
+    });
+
     return {
+      countries,
       tags: tags.map((tag) => tag.toJSON()),
-      countries: countries.map(({ country_id, country_name }) => {
-        return {
-          country_name,
-          locations: locations
-            .filter(({ country_id: id }) => id === country_id)
-            .map((location) => location.toJSON()),
-        };
-      }),
     };
   }
 
