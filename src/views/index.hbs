@@ -1,4 +1,7 @@
 <style>
+  #jobs-container {
+    padding: 15px;
+  }
   #jobs-filter {
     padding: 5px;
     display: grid;
@@ -6,7 +9,6 @@
   }
 
   #jobs-filter>div {
-    width: 80%;
     justify-self: center;
   }
 
@@ -37,25 +39,6 @@
 </style>
 <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-<div id="jobs-filter" style="padding: 5px; text-align: center;">
-  <h4 style="font-weight: bold;">Retrouvez les jobs de votre localité</h4>
-  <div id="select-filter" style="display: flex; gap: 10px;justify-content: center;">
-    <select name="location" style="width: 80%;">
-      {{#each countries}}
-      <optgroup label="{{country_name}}">
-        {{#each locations}}
-        <option value="{{location_id}}">{{town}}</option>
-        {{/each}}
-      </optgroup>
-      {{/each}}
-    </select>
-    <select name="tag" style="width: 80%;">
-      {{#each tags}}
-      <option value="CDD">{{tag_name}}</option>
-      {{/each}}
-    </select>
-  </div>
-</div>
 <div id="jobs-root">
   <div id="preloader">
     <h4 style="font-weight: bold;">ALERT JOBS</h4>
