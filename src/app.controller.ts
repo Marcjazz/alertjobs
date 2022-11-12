@@ -37,7 +37,7 @@ export class AppController {
     private areaService: AreaService,
     private sequelize: Sequelize,
   ) {
-    this.sequelize.sync({ force: true }).then(async () => {
+    this.sequelize.sync().then(async () => {
       const country_id = randomUUID();
       const tags = await this.tagService.findAll();
       const country = await this.countryService.findAll();
