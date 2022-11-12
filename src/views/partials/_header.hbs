@@ -51,13 +51,13 @@
     <div class="navbar-fixed">
         <nav>
             <div class="nav-wrapper">
-                <a href="/" class="brand-logo" style="color: black; height: fit-content;"><b>Alert Jobs</b></a>
+                <a href="/" class="brand-logo" style="height: fit-content;"><b>Alert Jobs</b></a>
                 <a data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="/">ACCEUIL</a></li>
                     <li><a href="/employers">RECRUTEURS</a></li>
                     {{!-- <li><a href="/about">A PROPOS</a></li> --}}
-                    <li><a class="modal-trigger" href="#login-dialog">LOGIN</a></li>
+                    <li><a href="/login">LOGIN</a></li>
                 </ul>
             </div>
         </nav>
@@ -66,7 +66,7 @@
         <li><a href="/">ACCEUIL</a></li>
         <li><a href="/employers">RECRUTEURS</a></li>
         {{!-- <li><a href="/about">A PROPOS</a></li> --}}
-        <li><a class="modal-trigger" href="#login-dialog">LOGIN</a></li>
+        <li><a href="/login">LOGIN</a></li>
     </ul>
     <div class="fixed-action-btn">
         <a class="btn-floating btn-large">
@@ -74,7 +74,8 @@
         </a>
     </div>
 </header>
-{{#if job?.job_flyer}}
+{{#if isLogin}}
+{{else if job?.job_flyer}}
 <div class="home-header" style="background-image: url(/images/{{job_flyer}});">
     <div class="input-field">
         <input type="text" name="search" id="search-input" class="autocomplete" placeholder="Que cherchez-vous ?">

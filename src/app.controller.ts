@@ -106,7 +106,9 @@ export class AppController {
   @Get('login')
   @Render('login')
   async renderLogin() {
-    return;
+    return {
+      isLogin: true,
+    };
   }
 
   @Get()
@@ -194,6 +196,7 @@ export class AppController {
   }
 
   @Post('login')
+  @Render('login')
   async loginUser(
     @Res() res: Response,
     @Session() session: Record<string, any>,
@@ -206,7 +209,10 @@ export class AppController {
       session.user = userSession;
       return res.redirect('/admin');
     }
-    res.redirect('/');
+    return {
+      isLogin: true,
+      errorMessage: `🤬🤬🤬 Incorrect email or password 🤬🤬🤬`,
+    };
   }
 
   @Post('new-login')
